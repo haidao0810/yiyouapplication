@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.kf.mapper.SysManagerMapper">
+
+    <resultMap id="DeviceDAO" type="com.kf.mapper.dao.DeviceDAO">
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="imei" jdbcType="VARCHAR" property="imei"/>
+        <result column="mac1" jdbcType="VARCHAR" property="mac1"/>
+        <result column="mac2" jdbcType="VARCHAR" property="mac2"/>
+        <result column="link_key" jdbcType="VARCHAR" property="linkKey"/>
+    </resultMap>
+    
+    <insert id="insertDevice" parameterType="java.util.Map">
+        INSERT  INTO user_sys(uuid,imei,mac1,mac2,link_key)VALUES (#{uuid},#{imei},#{mac1},#{mac2},#{linkKey})
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <select id="findDeviceByLinkKey" parameterType="java.lang.String" resultMap="DeviceDAO">
+        select * from user_sys where link_key=#{linkKey}
+    </select>
+    <select id="findDeviceById" parameterType="java.lang.String" resultMap="DeviceDAO">
+        select * from user_sys where uuid=#{deviceId}
+    </select>
+
+</mapper>

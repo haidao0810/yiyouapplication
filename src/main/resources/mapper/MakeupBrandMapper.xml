@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 为这个mapper指定一个唯一的namespace，namespace的值习惯上设置成包名+sql映射文件名，这样就能够保证namespace的值是唯一的
+例如namespace="me.gacl.mapping.userMapper"就是me.gacl.mapping(包名)+userMapper(userMapper.xml文件去除后缀)
+ -->
+<mapper namespace="com.kf.mapper.MakeupBrandMapper">
+    <resultMap id="MakeupBrandDAO" type="com.kf.mapper.dao.MakeupBrandDAO">
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+        <result column="brand_location" jdbcType="VARCHAR" property="brandLocation"/>
+        <result column="brand_image" jdbcType="VARCHAR" property="brand"/>
+        <result column="name_pinyin" jdbcType="VARCHAR" property="pinyin"/>
+        <result column="name_first_letter" jdbcType="VARCHAR" property="firstLetter"/>
+        <result column="brand" jdbcType="VARCHAR" property="brand"/>
+    </resultMap>
+    <insert id="insetMakeupBrandList" parameterType="java.util.ArrayList">
+        insert into makeup_brand(uuid,brand_name,brand_location,brand_image,name_pinyin,name_first_letter)values
+        <foreach collection="list" index="index" separator="," item="item">
+            (#{item.uuid},#{item.brandName},#{item.brandLocation},#{item.brand},#{item.pinyin},#{item.firstLetter})
+        </foreach>
+    </insert>
+    <select id="selectAllMakeupBrand" resultMap="MakeupBrandDAO">
+        select * from makeup_brand
+    </select>
+</mapper>
